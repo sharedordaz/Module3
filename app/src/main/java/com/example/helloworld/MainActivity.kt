@@ -43,6 +43,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     var showDialog by remember { mutableStateOf(false)}
