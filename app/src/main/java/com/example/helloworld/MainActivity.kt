@@ -5,9 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.AlertDialog
+import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.helloworld.ui.theme.HelloWorldTheme
+import androidx.compose.runtime.*
+
 
 
 class MainActivity : ComponentActivity() {
@@ -29,6 +35,7 @@ class MainActivity : ComponentActivity() {
                     Greeting(
                         name = "Dear User",
                         modifier = Modifier.padding(innerPadding)
+                            .background(Color(0x1C2744FC))
                     )
                 }
             }
@@ -38,6 +45,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
+    var showDialog by remember { mutableStateOf(false)}
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,11 +66,29 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             text = "Hello $name!, Welcome to BashTech!. We are here to help you in what you need",
             modifier = Modifier.padding(horizontal = 20.dp) // horizontal padding
         )
-
-        
+        Button(
+            onClick = { showDialog = true },
+            modifier = Modifier.padding(horizontal = 20.dp )
+                .padding(vertical = 10.dp)
+        ) {
+            Text( text = "Call us!", fontSize = 20.sp)
+        }
 
     }
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false }, // Dismiss the dialog when tapped outside
+            title = { Text(text = "Contact Information") },
+            text = { Text("For inquiries, please call: 123-456-7890") }, // Fictional phone number
+            confirmButton = {
+                Button(onClick = { showDialog = false }) {
+                    Text("OK") // Button to dismiss the dialog
+                }
+            }
+        )
+    }
 }
+
 
 @Preview(showBackground = true)
 @Composable
@@ -71,3 +97,4 @@ fun GreetingPreview() {
         Greeting("Android")
     }
 }
+
